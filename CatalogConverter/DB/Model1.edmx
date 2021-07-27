@@ -1,0 +1,841 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DAX2012_PreProdModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'DAX2012_PreProd.dbo.CRM_BrandHolderTable' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="CRM_BrandHolderTable">
+          <Key>
+            <PropertyRef Name="BRANDHOLDERID" />
+            <PropertyRef Name="BRANDHOLDERNAME" />
+            <PropertyRef Name="MODIFIEDDATE" />
+            <PropertyRef Name="CREATEDDATE" />
+          </Key>
+          <Property Name="BRANDHOLDERID" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="BRANDHOLDERNAME" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="MODIFIEDDATE" Type="datetime" Nullable="false" />
+          <Property Name="CREATEDDATE" Type="datetime" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'DAX2012_PreProd.dbo.CRM_BrandTable' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="CRM_BrandTable">
+          <Key>
+            <PropertyRef Name="BRANDID" />
+            <PropertyRef Name="NAME" />
+            <PropertyRef Name="BRANDHOLDERID" />
+            <PropertyRef Name="MODIFIEDDATE" />
+            <PropertyRef Name="CREATEDDATE" />
+          </Key>
+          <Property Name="BRANDID" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="NAME" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="BRANDHOLDERID" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="MODIFIEDDATE" Type="datetime" Nullable="false" />
+          <Property Name="CREATEDDATE" Type="datetime" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'DAX2012_PreProd.dbo.CRM_InventDimCombination' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="CRM_InventDimCombination">
+          <Key>
+            <PropertyRef Name="ITEMID" />
+            <PropertyRef Name="CONFIGID" />
+            <PropertyRef Name="ITEMID_CRYSTALL" />
+          </Key>
+          <Property Name="ITEMID" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="CONFIGID" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="ITEMID_CRYSTALL" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'DAX2012_PreProd.dbo.CRM_InventItemRange' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="CRM_InventItemRange">
+          <Key>
+            <PropertyRef Name="RANGEID" />
+            <PropertyRef Name="RANGEIDPARENT" />
+            <PropertyRef Name="PREFIX" />
+            <PropertyRef Name="NAMEALIAS" />
+            <PropertyRef Name="ITEMRANGEID_CRYSTALL" />
+          </Key>
+          <Property Name="RANGEID" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="RANGEIDPARENT" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="PREFIX" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="NAMEALIAS" Type="nvarchar" MaxLength="254" Nullable="false" />
+          <Property Name="ITEMRANGEID_CRYSTALL" Type="int" Nullable="false" />
+          <Property Name="RANGELEVEL" Type="bigint" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'DAX2012_PreProd.dbo.CRM_InventSalesDepartment' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="CRM_InventSalesDepartment">
+          <Key>
+            <PropertyRef Name="SALESDEPID" />
+            <PropertyRef Name="NAME" />
+            <PropertyRef Name="SALESDEPID_CRYSTALL" />
+          </Key>
+          <Property Name="SALESDEPID" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="NAME" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="SALESDEPID_CRYSTALL" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'DAX2012_PreProd.dbo.CRM_InventTable' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="CRM_InventTable">
+          <Key>
+            <PropertyRef Name="ITEMID" />
+            <PropertyRef Name="ITEMNAME" />
+            <PropertyRef Name="ITEMRANGEID" />
+            <PropertyRef Name="SALESDEPID" />
+            <PropertyRef Name="ITEMID_CRYSTALL" />
+            <PropertyRef Name="BRANDID" />
+            <PropertyRef Name="CREATEDDATE" />
+          </Key>
+          <Property Name="ITEMID" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="ITEMNAME" Type="nvarchar" MaxLength="140" Nullable="false" />
+          <Property Name="ITEMRANGEID" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="SALESDEPID" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="ITEMID_CRYSTALL" Type="int" Nullable="false" />
+          <Property Name="BRANDID" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="CREATEDDATE" Type="datetime" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'DAX2012_PreProd.dbo.CRM_PublicityJournalRefCardType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="CRM_PublicityJournalRefCardType">
+          <Key>
+            <PropertyRef Name="JOURNALID" />
+            <PropertyRef Name="DISCCARDTYPEID" />
+          </Key>
+          <Property Name="JOURNALID" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="DISCCARDTYPEID" Type="varchar" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'DAX2012_PreProd.dbo.CRM_PublicityScheduleView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="CRM_PublicityScheduleView">
+          <Key>
+            <PropertyRef Name="INVENTLOCATIONID" />
+            <PropertyRef Name="PUBLICITYDATE" />
+            <PropertyRef Name="JOURNALTYPE" />
+            <PropertyRef Name="PUBLICITYJOURNALID" />
+            <PropertyRef Name="ACTIONTYPE" />
+            <PropertyRef Name="DATEBEGIN" />
+            <PropertyRef Name="DATEEND" />
+            <PropertyRef Name="ITEMID" />
+            <PropertyRef Name="VALUETYPE" />
+            <PropertyRef Name="VALUE" />
+            <PropertyRef Name="ITEMID_CRYSTALL" />
+            <PropertyRef Name="PRICERETAIL" />
+            <PropertyRef Name="PRICEPUBLICITY" />
+            <PropertyRef Name="PROBABLEPRICERETAIL" />
+            <PropertyRef Name="PROBABLEPRICEPUBLICITY" />
+            <PropertyRef Name="QTY" />
+            <PropertyRef Name="DISCQTY" />
+            <PropertyRef Name="ACTIVE" />
+            <PropertyRef Name="COUNTDISCTYPE" />
+            <PropertyRef Name="COMMODITYGROUPID" />
+            <PropertyRef Name="RULETYPE" />
+            <PropertyRef Name="PUBLICITYTRANSID" />
+            <PropertyRef Name="TimeBegin" />
+            <PropertyRef Name="TimeEnd" />
+            <PropertyRef Name="MODIFIEDDATE" />
+            <PropertyRef Name="ModifiedTime" />
+            <PropertyRef Name="CREATEDDATE" />
+            <PropertyRef Name="CreatedTime" />
+          </Key>
+          <Property Name="INVENTLOCATIONID" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="PUBLICITYDATE" Type="datetime" Nullable="false" />
+          <Property Name="JOURNALTYPE" Type="int" Nullable="false" />
+          <Property Name="PUBLICITYJOURNALID" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="ACTIONTYPE" Type="int" Nullable="false" />
+          <Property Name="DATEBEGIN" Type="datetime" Nullable="false" />
+          <Property Name="DATEEND" Type="datetime" Nullable="false" />
+          <Property Name="ITEMID" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="VALUETYPE" Type="int" Nullable="false" />
+          <Property Name="VALUE" Type="numeric" Precision="32" Scale="16" Nullable="false" />
+          <Property Name="ITEMID_CRYSTALL" Type="int" Nullable="false" />
+          <Property Name="PRICERETAIL" Type="numeric" Precision="32" Scale="16" Nullable="false" />
+          <Property Name="PRICEPUBLICITY" Type="numeric" Precision="32" Scale="16" Nullable="false" />
+          <Property Name="PROBABLEPRICERETAIL" Type="numeric" Precision="32" Scale="16" Nullable="false" />
+          <Property Name="PROBABLEPRICEPUBLICITY" Type="numeric" Precision="32" Scale="16" Nullable="false" />
+          <Property Name="QTY" Type="numeric" Precision="32" Scale="16" Nullable="false" />
+          <Property Name="DISCQTY" Type="numeric" Precision="32" Scale="16" Nullable="false" />
+          <Property Name="ACTIVE" Type="int" Nullable="false" />
+          <Property Name="COUNTDISCTYPE" Type="int" Nullable="false" />
+          <Property Name="COMMODITYGROUPID" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="RULETYPE" Type="int" Nullable="false" />
+          <Property Name="PUBLICITYTRANSID" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="TimeBegin" Type="nvarchar" MaxLength="8" Nullable="false" />
+          <Property Name="TimeEnd" Type="nvarchar" MaxLength="8" Nullable="false" />
+          <Property Name="MODIFIEDDATE" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedTime" Type="nvarchar" MaxLength="8" Nullable="false" />
+          <Property Name="CREATEDDATE" Type="datetime" Nullable="false" />
+          <Property Name="CreatedTime" Type="nvarchar" MaxLength="8" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'DAX2012_PreProd.dbo.CRM_PublicityScheduleView_ClearanceSale' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="CRM_PublicityScheduleView_ClearanceSale">
+          <Key>
+            <PropertyRef Name="INVENTLOCATIONID" />
+            <PropertyRef Name="PublicityDate" />
+            <PropertyRef Name="JournalType" />
+            <PropertyRef Name="PUBLICITYJOURNALID" />
+            <PropertyRef Name="ActionType" />
+            <PropertyRef Name="DateBegin" />
+            <PropertyRef Name="DateEnd" />
+            <PropertyRef Name="ItemId" />
+            <PropertyRef Name="ValueType" />
+            <PropertyRef Name="Value" />
+            <PropertyRef Name="ITEMID_CRYSTALL" />
+            <PropertyRef Name="PRICERETAIL" />
+            <PropertyRef Name="PROBABLEPRICERETAIL" />
+            <PropertyRef Name="QTY" />
+            <PropertyRef Name="ACTIVE" />
+            <PropertyRef Name="COUNTDISCTYPE" />
+            <PropertyRef Name="COMMODITYGROUPID" />
+            <PropertyRef Name="RuleType" />
+            <PropertyRef Name="PublicityTransId" />
+            <PropertyRef Name="TimeBegin" />
+            <PropertyRef Name="TimeEnd" />
+            <PropertyRef Name="ModifiedDate" />
+            <PropertyRef Name="ModifiedTime" />
+            <PropertyRef Name="CreatedDate" />
+            <PropertyRef Name="CreatedTime" />
+          </Key>
+          <Property Name="INVENTLOCATIONID" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="PublicityDate" Type="datetime" Nullable="false" />
+          <Property Name="JournalType" Type="int" Nullable="false" />
+          <Property Name="PUBLICITYJOURNALID" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="ActionType" Type="int" Nullable="false" />
+          <Property Name="DateBegin" Type="datetime" Nullable="false" />
+          <Property Name="DateEnd" Type="datetime" Nullable="false" />
+          <Property Name="ItemId" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="ValueType" Type="int" Nullable="false" />
+          <Property Name="Value" Type="numeric" Precision="32" Scale="16" Nullable="false" />
+          <Property Name="ITEMID_CRYSTALL" Type="int" Nullable="false" />
+          <Property Name="PRICERETAIL" Type="numeric" Precision="32" Scale="16" Nullable="false" />
+          <Property Name="PRICEPUBLICITY" Type="numeric" Precision="38" Scale="6" />
+          <Property Name="PROBABLEPRICERETAIL" Type="numeric" Precision="32" Scale="16" Nullable="false" />
+          <Property Name="PROBABLEPRICEPUBLICITY" Type="numeric" Precision="38" Scale="6" />
+          <Property Name="QTY" Type="numeric" Precision="32" Scale="16" Nullable="false" />
+          <Property Name="ACTIVE" Type="int" Nullable="false" />
+          <Property Name="COUNTDISCTYPE" Type="int" Nullable="false" />
+          <Property Name="COMMODITYGROUPID" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="RuleType" Type="int" Nullable="false" />
+          <Property Name="PublicityTransId" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="TimeBegin" Type="nvarchar" MaxLength="8" Nullable="false" />
+          <Property Name="TimeEnd" Type="nvarchar" MaxLength="8" Nullable="false" />
+          <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedTime" Type="nvarchar" MaxLength="8" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="CreatedTime" Type="nvarchar" MaxLength="8" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'DAX2012_PreProd.dbo.CRM_RetailItemGroup' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="CRM_RetailItemGroup">
+          <Key>
+            <PropertyRef Name="GROUPID" />
+            <PropertyRef Name="NAME" />
+            <PropertyRef Name="ACTIVE" />
+            <PropertyRef Name="RETAILITEMGROUPTYPE" />
+            <PropertyRef Name="MODIFIEDDATETIME" />
+            <PropertyRef Name="CREATEDDATETIME" />
+          </Key>
+          <Property Name="GROUPID" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="NAME" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="ACTIVE" Type="int" Nullable="false" />
+          <Property Name="RETAILITEMGROUPTYPE" Type="int" Nullable="false" />
+          <Property Name="MODIFIEDDATETIME" Type="datetime" Nullable="false" />
+          <Property Name="CREATEDDATETIME" Type="datetime" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'DAX2012_PreProd.dbo.CRM_RetailItemGroupLine' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="CRM_RetailItemGroupLine">
+          <Key>
+            <PropertyRef Name="ITEMID" />
+            <PropertyRef Name="GROUPID" />
+            <PropertyRef Name="BASEITEM" />
+            <PropertyRef Name="QUANT" />
+          </Key>
+          <Property Name="ITEMID" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="GROUPID" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="BASEITEM" Type="int" Nullable="false" />
+          <Property Name="QUANT" Type="numeric" Precision="32" Scale="16" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="DAX2012_PreProdModelStoreContainer">
+          <EntitySet Name="CRM_BrandHolderTable" EntityType="Self.CRM_BrandHolderTable" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [CRM_BrandHolderTable].[BRANDHOLDERID] AS [BRANDHOLDERID], 
+    [CRM_BrandHolderTable].[BRANDHOLDERNAME] AS [BRANDHOLDERNAME], 
+    [CRM_BrandHolderTable].[MODIFIEDDATE] AS [MODIFIEDDATE], 
+    [CRM_BrandHolderTable].[CREATEDDATE] AS [CREATEDDATE]
+    FROM [dbo].[CRM_BrandHolderTable] AS [CRM_BrandHolderTable]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="CRM_BrandTable" EntityType="Self.CRM_BrandTable" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [CRM_BrandTable].[BRANDID] AS [BRANDID], 
+    [CRM_BrandTable].[NAME] AS [NAME], 
+    [CRM_BrandTable].[BRANDHOLDERID] AS [BRANDHOLDERID], 
+    [CRM_BrandTable].[MODIFIEDDATE] AS [MODIFIEDDATE], 
+    [CRM_BrandTable].[CREATEDDATE] AS [CREATEDDATE]
+    FROM [dbo].[CRM_BrandTable] AS [CRM_BrandTable]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="CRM_InventDimCombination" EntityType="Self.CRM_InventDimCombination" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [CRM_InventDimCombination].[ITEMID] AS [ITEMID], 
+    [CRM_InventDimCombination].[CONFIGID] AS [CONFIGID], 
+    [CRM_InventDimCombination].[ITEMID_CRYSTALL] AS [ITEMID_CRYSTALL]
+    FROM [dbo].[CRM_InventDimCombination] AS [CRM_InventDimCombination]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="CRM_InventItemRange" EntityType="Self.CRM_InventItemRange" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [CRM_InventItemRange].[RANGEID] AS [RANGEID], 
+    [CRM_InventItemRange].[RANGEIDPARENT] AS [RANGEIDPARENT], 
+    [CRM_InventItemRange].[PREFIX] AS [PREFIX], 
+    [CRM_InventItemRange].[NAMEALIAS] AS [NAMEALIAS], 
+    [CRM_InventItemRange].[ITEMRANGEID_CRYSTALL] AS [ITEMRANGEID_CRYSTALL], 
+    [CRM_InventItemRange].[RANGELEVEL] AS [RANGELEVEL]
+    FROM [dbo].[CRM_InventItemRange] AS [CRM_InventItemRange]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="CRM_InventSalesDepartment" EntityType="Self.CRM_InventSalesDepartment" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [CRM_InventSalesDepartment].[SALESDEPID] AS [SALESDEPID], 
+    [CRM_InventSalesDepartment].[NAME] AS [NAME], 
+    [CRM_InventSalesDepartment].[SALESDEPID_CRYSTALL] AS [SALESDEPID_CRYSTALL]
+    FROM [dbo].[CRM_InventSalesDepartment] AS [CRM_InventSalesDepartment]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="CRM_InventTable" EntityType="Self.CRM_InventTable" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [CRM_InventTable].[ITEMID] AS [ITEMID], 
+    [CRM_InventTable].[ITEMNAME] AS [ITEMNAME], 
+    [CRM_InventTable].[ITEMRANGEID] AS [ITEMRANGEID], 
+    [CRM_InventTable].[SALESDEPID] AS [SALESDEPID], 
+    [CRM_InventTable].[ITEMID_CRYSTALL] AS [ITEMID_CRYSTALL], 
+    [CRM_InventTable].[BRANDID] AS [BRANDID], 
+    [CRM_InventTable].[CREATEDDATE] AS [CREATEDDATE]
+    FROM [dbo].[CRM_InventTable] AS [CRM_InventTable]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="CRM_PublicityJournalRefCardType" EntityType="Self.CRM_PublicityJournalRefCardType" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [CRM_PublicityJournalRefCardType].[JOURNALID] AS [JOURNALID], 
+    [CRM_PublicityJournalRefCardType].[DISCCARDTYPEID] AS [DISCCARDTYPEID]
+    FROM [dbo].[CRM_PublicityJournalRefCardType] AS [CRM_PublicityJournalRefCardType]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="CRM_PublicityScheduleView" EntityType="Self.CRM_PublicityScheduleView" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [CRM_PublicityScheduleView].[INVENTLOCATIONID] AS [INVENTLOCATIONID], 
+    [CRM_PublicityScheduleView].[PUBLICITYDATE] AS [PUBLICITYDATE], 
+    [CRM_PublicityScheduleView].[JOURNALTYPE] AS [JOURNALTYPE], 
+    [CRM_PublicityScheduleView].[PUBLICITYJOURNALID] AS [PUBLICITYJOURNALID], 
+    [CRM_PublicityScheduleView].[ACTIONTYPE] AS [ACTIONTYPE], 
+    [CRM_PublicityScheduleView].[DATEBEGIN] AS [DATEBEGIN], 
+    [CRM_PublicityScheduleView].[DATEEND] AS [DATEEND], 
+    [CRM_PublicityScheduleView].[ITEMID] AS [ITEMID], 
+    [CRM_PublicityScheduleView].[VALUETYPE] AS [VALUETYPE], 
+    [CRM_PublicityScheduleView].[VALUE] AS [VALUE], 
+    [CRM_PublicityScheduleView].[ITEMID_CRYSTALL] AS [ITEMID_CRYSTALL], 
+    [CRM_PublicityScheduleView].[PRICERETAIL] AS [PRICERETAIL], 
+    [CRM_PublicityScheduleView].[PRICEPUBLICITY] AS [PRICEPUBLICITY], 
+    [CRM_PublicityScheduleView].[PROBABLEPRICERETAIL] AS [PROBABLEPRICERETAIL], 
+    [CRM_PublicityScheduleView].[PROBABLEPRICEPUBLICITY] AS [PROBABLEPRICEPUBLICITY], 
+    [CRM_PublicityScheduleView].[QTY] AS [QTY], 
+    [CRM_PublicityScheduleView].[DISCQTY] AS [DISCQTY], 
+    [CRM_PublicityScheduleView].[ACTIVE] AS [ACTIVE], 
+    [CRM_PublicityScheduleView].[COUNTDISCTYPE] AS [COUNTDISCTYPE], 
+    [CRM_PublicityScheduleView].[COMMODITYGROUPID] AS [COMMODITYGROUPID], 
+    [CRM_PublicityScheduleView].[RULETYPE] AS [RULETYPE], 
+    [CRM_PublicityScheduleView].[PUBLICITYTRANSID] AS [PUBLICITYTRANSID], 
+    [CRM_PublicityScheduleView].[TimeBegin] AS [TimeBegin], 
+    [CRM_PublicityScheduleView].[TimeEnd] AS [TimeEnd], 
+    [CRM_PublicityScheduleView].[MODIFIEDDATE] AS [MODIFIEDDATE], 
+    [CRM_PublicityScheduleView].[ModifiedTime] AS [ModifiedTime], 
+    [CRM_PublicityScheduleView].[CREATEDDATE] AS [CREATEDDATE], 
+    [CRM_PublicityScheduleView].[CreatedTime] AS [CreatedTime]
+    FROM [dbo].[CRM_PublicityScheduleView] AS [CRM_PublicityScheduleView]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="CRM_PublicityScheduleView_ClearanceSale" EntityType="Self.CRM_PublicityScheduleView_ClearanceSale" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [CRM_PublicityScheduleView_ClearanceSale].[INVENTLOCATIONID] AS [INVENTLOCATIONID], 
+    [CRM_PublicityScheduleView_ClearanceSale].[PublicityDate] AS [PublicityDate], 
+    [CRM_PublicityScheduleView_ClearanceSale].[JournalType] AS [JournalType], 
+    [CRM_PublicityScheduleView_ClearanceSale].[PUBLICITYJOURNALID] AS [PUBLICITYJOURNALID], 
+    [CRM_PublicityScheduleView_ClearanceSale].[ActionType] AS [ActionType], 
+    [CRM_PublicityScheduleView_ClearanceSale].[DateBegin] AS [DateBegin], 
+    [CRM_PublicityScheduleView_ClearanceSale].[DateEnd] AS [DateEnd], 
+    [CRM_PublicityScheduleView_ClearanceSale].[ItemId] AS [ItemId], 
+    [CRM_PublicityScheduleView_ClearanceSale].[ValueType] AS [ValueType], 
+    [CRM_PublicityScheduleView_ClearanceSale].[Value] AS [Value], 
+    [CRM_PublicityScheduleView_ClearanceSale].[ITEMID_CRYSTALL] AS [ITEMID_CRYSTALL], 
+    [CRM_PublicityScheduleView_ClearanceSale].[PRICERETAIL] AS [PRICERETAIL], 
+    [CRM_PublicityScheduleView_ClearanceSale].[PRICEPUBLICITY] AS [PRICEPUBLICITY], 
+    [CRM_PublicityScheduleView_ClearanceSale].[PROBABLEPRICERETAIL] AS [PROBABLEPRICERETAIL], 
+    [CRM_PublicityScheduleView_ClearanceSale].[PROBABLEPRICEPUBLICITY] AS [PROBABLEPRICEPUBLICITY], 
+    [CRM_PublicityScheduleView_ClearanceSale].[QTY] AS [QTY], 
+    [CRM_PublicityScheduleView_ClearanceSale].[ACTIVE] AS [ACTIVE], 
+    [CRM_PublicityScheduleView_ClearanceSale].[COUNTDISCTYPE] AS [COUNTDISCTYPE], 
+    [CRM_PublicityScheduleView_ClearanceSale].[COMMODITYGROUPID] AS [COMMODITYGROUPID], 
+    [CRM_PublicityScheduleView_ClearanceSale].[RuleType] AS [RuleType], 
+    [CRM_PublicityScheduleView_ClearanceSale].[PublicityTransId] AS [PublicityTransId], 
+    [CRM_PublicityScheduleView_ClearanceSale].[TimeBegin] AS [TimeBegin], 
+    [CRM_PublicityScheduleView_ClearanceSale].[TimeEnd] AS [TimeEnd], 
+    [CRM_PublicityScheduleView_ClearanceSale].[ModifiedDate] AS [ModifiedDate], 
+    [CRM_PublicityScheduleView_ClearanceSale].[ModifiedTime] AS [ModifiedTime], 
+    [CRM_PublicityScheduleView_ClearanceSale].[CreatedDate] AS [CreatedDate], 
+    [CRM_PublicityScheduleView_ClearanceSale].[CreatedTime] AS [CreatedTime]
+    FROM [dbo].[CRM_PublicityScheduleView_ClearanceSale] AS [CRM_PublicityScheduleView_ClearanceSale]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="CRM_RetailItemGroup" EntityType="Self.CRM_RetailItemGroup" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [CRM_RetailItemGroup].[GROUPID] AS [GROUPID], 
+    [CRM_RetailItemGroup].[NAME] AS [NAME], 
+    [CRM_RetailItemGroup].[ACTIVE] AS [ACTIVE], 
+    [CRM_RetailItemGroup].[RETAILITEMGROUPTYPE] AS [RETAILITEMGROUPTYPE], 
+    [CRM_RetailItemGroup].[MODIFIEDDATETIME] AS [MODIFIEDDATETIME], 
+    [CRM_RetailItemGroup].[CREATEDDATETIME] AS [CREATEDDATETIME]
+    FROM [dbo].[CRM_RetailItemGroup] AS [CRM_RetailItemGroup]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="CRM_RetailItemGroupLine" EntityType="Self.CRM_RetailItemGroupLine" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [CRM_RetailItemGroupLine].[ITEMID] AS [ITEMID], 
+    [CRM_RetailItemGroupLine].[GROUPID] AS [GROUPID], 
+    [CRM_RetailItemGroupLine].[BASEITEM] AS [BASEITEM], 
+    [CRM_RetailItemGroupLine].[QUANT] AS [QUANT]
+    FROM [dbo].[CRM_RetailItemGroupLine] AS [CRM_RetailItemGroupLine]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DAX2012_PreProdModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CRM_BrandHolderTable">
+          <Key>
+            <PropertyRef Name="BRANDHOLDERID" />
+            <PropertyRef Name="BRANDHOLDERNAME" />
+            <PropertyRef Name="MODIFIEDDATE" />
+            <PropertyRef Name="CREATEDDATE" />
+          </Key>
+          <Property Name="BRANDHOLDERID" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="BRANDHOLDERNAME" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MODIFIEDDATE" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CREATEDDATE" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="CRM_BrandTable">
+          <Key>
+            <PropertyRef Name="BRANDID" />
+            <PropertyRef Name="NAME" />
+            <PropertyRef Name="BRANDHOLDERID" />
+            <PropertyRef Name="MODIFIEDDATE" />
+            <PropertyRef Name="CREATEDDATE" />
+          </Key>
+          <Property Name="BRANDID" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NAME" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="BRANDHOLDERID" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MODIFIEDDATE" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CREATEDDATE" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="CRM_InventDimCombination">
+          <Key>
+            <PropertyRef Name="ITEMID" />
+            <PropertyRef Name="CONFIGID" />
+            <PropertyRef Name="ITEMID_CRYSTALL" />
+          </Key>
+          <Property Name="ITEMID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CONFIGID" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ITEMID_CRYSTALL" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CRM_InventItemRange">
+          <Key>
+            <PropertyRef Name="RANGEID" />
+            <PropertyRef Name="RANGEIDPARENT" />
+            <PropertyRef Name="PREFIX" />
+            <PropertyRef Name="NAMEALIAS" />
+            <PropertyRef Name="ITEMRANGEID_CRYSTALL" />
+          </Key>
+          <Property Name="RANGEID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RANGEIDPARENT" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PREFIX" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NAMEALIAS" Type="String" MaxLength="254" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ITEMRANGEID_CRYSTALL" Type="Int32" Nullable="false" />
+          <Property Name="RANGELEVEL" Type="Int64" />
+        </EntityType>
+        <EntityType Name="CRM_InventSalesDepartment">
+          <Key>
+            <PropertyRef Name="SALESDEPID" />
+            <PropertyRef Name="NAME" />
+            <PropertyRef Name="SALESDEPID_CRYSTALL" />
+          </Key>
+          <Property Name="SALESDEPID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NAME" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SALESDEPID_CRYSTALL" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CRM_InventTable">
+          <Key>
+            <PropertyRef Name="ITEMID" />
+            <PropertyRef Name="ITEMNAME" />
+            <PropertyRef Name="ITEMRANGEID" />
+            <PropertyRef Name="SALESDEPID" />
+            <PropertyRef Name="ITEMID_CRYSTALL" />
+            <PropertyRef Name="BRANDID" />
+            <PropertyRef Name="CREATEDDATE" />
+          </Key>
+          <Property Name="ITEMID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ITEMNAME" Type="String" MaxLength="140" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ITEMRANGEID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SALESDEPID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ITEMID_CRYSTALL" Type="Int32" Nullable="false" />
+          <Property Name="BRANDID" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CREATEDDATE" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="CRM_PublicityJournalRefCardType">
+          <Key>
+            <PropertyRef Name="JOURNALID" />
+            <PropertyRef Name="DISCCARDTYPEID" />
+          </Key>
+          <Property Name="JOURNALID" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DISCCARDTYPEID" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CRM_PublicityScheduleView">
+          <Key>
+            <PropertyRef Name="INVENTLOCATIONID" />
+            <PropertyRef Name="PUBLICITYDATE" />
+            <PropertyRef Name="JOURNALTYPE" />
+            <PropertyRef Name="PUBLICITYJOURNALID" />
+            <PropertyRef Name="ACTIONTYPE" />
+            <PropertyRef Name="DATEBEGIN" />
+            <PropertyRef Name="DATEEND" />
+            <PropertyRef Name="ITEMID" />
+            <PropertyRef Name="VALUETYPE" />
+            <PropertyRef Name="VALUE" />
+            <PropertyRef Name="ITEMID_CRYSTALL" />
+            <PropertyRef Name="PRICERETAIL" />
+            <PropertyRef Name="PRICEPUBLICITY" />
+            <PropertyRef Name="PROBABLEPRICERETAIL" />
+            <PropertyRef Name="PROBABLEPRICEPUBLICITY" />
+            <PropertyRef Name="QTY" />
+            <PropertyRef Name="DISCQTY" />
+            <PropertyRef Name="ACTIVE" />
+            <PropertyRef Name="COUNTDISCTYPE" />
+            <PropertyRef Name="COMMODITYGROUPID" />
+            <PropertyRef Name="RULETYPE" />
+            <PropertyRef Name="PUBLICITYTRANSID" />
+            <PropertyRef Name="TimeBegin" />
+            <PropertyRef Name="TimeEnd" />
+            <PropertyRef Name="MODIFIEDDATE" />
+            <PropertyRef Name="ModifiedTime" />
+            <PropertyRef Name="CREATEDDATE" />
+            <PropertyRef Name="CreatedTime" />
+          </Key>
+          <Property Name="INVENTLOCATIONID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PUBLICITYDATE" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="JOURNALTYPE" Type="Int32" Nullable="false" />
+          <Property Name="PUBLICITYJOURNALID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ACTIONTYPE" Type="Int32" Nullable="false" />
+          <Property Name="DATEBEGIN" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DATEEND" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ITEMID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="VALUETYPE" Type="Int32" Nullable="false" />
+          <Property Name="VALUE" Type="Decimal" Precision="32" Scale="16" Nullable="false" />
+          <Property Name="ITEMID_CRYSTALL" Type="Int32" Nullable="false" />
+          <Property Name="PRICERETAIL" Type="Decimal" Precision="32" Scale="16" Nullable="false" />
+          <Property Name="PRICEPUBLICITY" Type="Decimal" Precision="32" Scale="16" Nullable="false" />
+          <Property Name="PROBABLEPRICERETAIL" Type="Decimal" Precision="32" Scale="16" Nullable="false" />
+          <Property Name="PROBABLEPRICEPUBLICITY" Type="Decimal" Precision="32" Scale="16" Nullable="false" />
+          <Property Name="QTY" Type="Decimal" Precision="32" Scale="16" Nullable="false" />
+          <Property Name="DISCQTY" Type="Decimal" Precision="32" Scale="16" Nullable="false" />
+          <Property Name="ACTIVE" Type="Int32" Nullable="false" />
+          <Property Name="COUNTDISCTYPE" Type="Int32" Nullable="false" />
+          <Property Name="COMMODITYGROUPID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RULETYPE" Type="Int32" Nullable="false" />
+          <Property Name="PUBLICITYTRANSID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TimeBegin" Type="String" MaxLength="8" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TimeEnd" Type="String" MaxLength="8" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MODIFIEDDATE" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedTime" Type="String" MaxLength="8" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CREATEDDATE" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedTime" Type="String" MaxLength="8" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CRM_PublicityScheduleView_ClearanceSale">
+          <Key>
+            <PropertyRef Name="INVENTLOCATIONID" />
+            <PropertyRef Name="PublicityDate" />
+            <PropertyRef Name="JournalType" />
+            <PropertyRef Name="PUBLICITYJOURNALID" />
+            <PropertyRef Name="ActionType" />
+            <PropertyRef Name="DateBegin" />
+            <PropertyRef Name="DateEnd" />
+            <PropertyRef Name="ItemId" />
+            <PropertyRef Name="ValueType" />
+            <PropertyRef Name="Value" />
+            <PropertyRef Name="ITEMID_CRYSTALL" />
+            <PropertyRef Name="PRICERETAIL" />
+            <PropertyRef Name="PROBABLEPRICERETAIL" />
+            <PropertyRef Name="QTY" />
+            <PropertyRef Name="ACTIVE" />
+            <PropertyRef Name="COUNTDISCTYPE" />
+            <PropertyRef Name="COMMODITYGROUPID" />
+            <PropertyRef Name="RuleType" />
+            <PropertyRef Name="PublicityTransId" />
+            <PropertyRef Name="TimeBegin" />
+            <PropertyRef Name="TimeEnd" />
+            <PropertyRef Name="ModifiedDate" />
+            <PropertyRef Name="ModifiedTime" />
+            <PropertyRef Name="CreatedDate" />
+            <PropertyRef Name="CreatedTime" />
+          </Key>
+          <Property Name="INVENTLOCATIONID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PublicityDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="JournalType" Type="Int32" Nullable="false" />
+          <Property Name="PUBLICITYJOURNALID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ActionType" Type="Int32" Nullable="false" />
+          <Property Name="DateBegin" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DateEnd" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ItemId" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ValueType" Type="Int32" Nullable="false" />
+          <Property Name="Value" Type="Decimal" Precision="32" Scale="16" Nullable="false" />
+          <Property Name="ITEMID_CRYSTALL" Type="Int32" Nullable="false" />
+          <Property Name="PRICERETAIL" Type="Decimal" Precision="32" Scale="16" Nullable="false" />
+          <Property Name="PRICEPUBLICITY" Type="Decimal" Precision="38" Scale="6" />
+          <Property Name="PROBABLEPRICERETAIL" Type="Decimal" Precision="32" Scale="16" Nullable="false" />
+          <Property Name="PROBABLEPRICEPUBLICITY" Type="Decimal" Precision="38" Scale="6" />
+          <Property Name="QTY" Type="Decimal" Precision="32" Scale="16" Nullable="false" />
+          <Property Name="ACTIVE" Type="Int32" Nullable="false" />
+          <Property Name="COUNTDISCTYPE" Type="Int32" Nullable="false" />
+          <Property Name="COMMODITYGROUPID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RuleType" Type="Int32" Nullable="false" />
+          <Property Name="PublicityTransId" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TimeBegin" Type="String" MaxLength="8" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TimeEnd" Type="String" MaxLength="8" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedTime" Type="String" MaxLength="8" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedTime" Type="String" MaxLength="8" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CRM_RetailItemGroup">
+          <Key>
+            <PropertyRef Name="GROUPID" />
+            <PropertyRef Name="NAME" />
+            <PropertyRef Name="ACTIVE" />
+            <PropertyRef Name="RETAILITEMGROUPTYPE" />
+            <PropertyRef Name="MODIFIEDDATETIME" />
+            <PropertyRef Name="CREATEDDATETIME" />
+          </Key>
+          <Property Name="GROUPID" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NAME" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ACTIVE" Type="Int32" Nullable="false" />
+          <Property Name="RETAILITEMGROUPTYPE" Type="Int32" Nullable="false" />
+          <Property Name="MODIFIEDDATETIME" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CREATEDDATETIME" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="CRM_RetailItemGroupLine">
+          <Key>
+            <PropertyRef Name="ITEMID" />
+            <PropertyRef Name="GROUPID" />
+            <PropertyRef Name="BASEITEM" />
+            <PropertyRef Name="QUANT" />
+          </Key>
+          <Property Name="ITEMID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="GROUPID" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="BASEITEM" Type="Int32" Nullable="false" />
+          <Property Name="QUANT" Type="Decimal" Precision="32" Scale="16" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="DAX2012_PreProdEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CRM_BrandHolderTable" EntityType="Self.CRM_BrandHolderTable" />
+          <EntitySet Name="CRM_BrandTable" EntityType="Self.CRM_BrandTable" />
+          <EntitySet Name="CRM_InventDimCombination" EntityType="Self.CRM_InventDimCombination" />
+          <EntitySet Name="CRM_InventItemRange" EntityType="Self.CRM_InventItemRange" />
+          <EntitySet Name="CRM_InventSalesDepartment" EntityType="Self.CRM_InventSalesDepartment" />
+          <EntitySet Name="CRM_InventTable" EntityType="Self.CRM_InventTable" />
+          <EntitySet Name="CRM_PublicityJournalRefCardType" EntityType="Self.CRM_PublicityJournalRefCardType" />
+          <EntitySet Name="CRM_PublicityScheduleView" EntityType="Self.CRM_PublicityScheduleView" />
+          <EntitySet Name="CRM_PublicityScheduleView_ClearanceSale" EntityType="Self.CRM_PublicityScheduleView_ClearanceSale" />
+          <EntitySet Name="CRM_RetailItemGroup" EntityType="Self.CRM_RetailItemGroup" />
+          <EntitySet Name="CRM_RetailItemGroupLine" EntityType="Self.CRM_RetailItemGroupLine" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DAX2012_PreProdModelStoreContainer" CdmEntityContainer="DAX2012_PreProdEntities">
+          <EntitySetMapping Name="CRM_BrandHolderTable">
+            <EntityTypeMapping TypeName="DAX2012_PreProdModel.CRM_BrandHolderTable">
+              <MappingFragment StoreEntitySet="CRM_BrandHolderTable">
+                <ScalarProperty Name="BRANDHOLDERID" ColumnName="BRANDHOLDERID" />
+                <ScalarProperty Name="BRANDHOLDERNAME" ColumnName="BRANDHOLDERNAME" />
+                <ScalarProperty Name="MODIFIEDDATE" ColumnName="MODIFIEDDATE" />
+                <ScalarProperty Name="CREATEDDATE" ColumnName="CREATEDDATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CRM_BrandTable">
+            <EntityTypeMapping TypeName="DAX2012_PreProdModel.CRM_BrandTable">
+              <MappingFragment StoreEntitySet="CRM_BrandTable">
+                <ScalarProperty Name="BRANDID" ColumnName="BRANDID" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+                <ScalarProperty Name="BRANDHOLDERID" ColumnName="BRANDHOLDERID" />
+                <ScalarProperty Name="MODIFIEDDATE" ColumnName="MODIFIEDDATE" />
+                <ScalarProperty Name="CREATEDDATE" ColumnName="CREATEDDATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CRM_InventDimCombination">
+            <EntityTypeMapping TypeName="DAX2012_PreProdModel.CRM_InventDimCombination">
+              <MappingFragment StoreEntitySet="CRM_InventDimCombination">
+                <ScalarProperty Name="ITEMID" ColumnName="ITEMID" />
+                <ScalarProperty Name="CONFIGID" ColumnName="CONFIGID" />
+                <ScalarProperty Name="ITEMID_CRYSTALL" ColumnName="ITEMID_CRYSTALL" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CRM_InventItemRange">
+            <EntityTypeMapping TypeName="DAX2012_PreProdModel.CRM_InventItemRange">
+              <MappingFragment StoreEntitySet="CRM_InventItemRange">
+                <ScalarProperty Name="RANGEID" ColumnName="RANGEID" />
+                <ScalarProperty Name="RANGEIDPARENT" ColumnName="RANGEIDPARENT" />
+                <ScalarProperty Name="PREFIX" ColumnName="PREFIX" />
+                <ScalarProperty Name="NAMEALIAS" ColumnName="NAMEALIAS" />
+                <ScalarProperty Name="ITEMRANGEID_CRYSTALL" ColumnName="ITEMRANGEID_CRYSTALL" />
+                <ScalarProperty Name="RANGELEVEL" ColumnName="RANGELEVEL" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CRM_InventSalesDepartment">
+            <EntityTypeMapping TypeName="DAX2012_PreProdModel.CRM_InventSalesDepartment">
+              <MappingFragment StoreEntitySet="CRM_InventSalesDepartment">
+                <ScalarProperty Name="SALESDEPID" ColumnName="SALESDEPID" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+                <ScalarProperty Name="SALESDEPID_CRYSTALL" ColumnName="SALESDEPID_CRYSTALL" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CRM_InventTable">
+            <EntityTypeMapping TypeName="DAX2012_PreProdModel.CRM_InventTable">
+              <MappingFragment StoreEntitySet="CRM_InventTable">
+                <ScalarProperty Name="ITEMID" ColumnName="ITEMID" />
+                <ScalarProperty Name="ITEMNAME" ColumnName="ITEMNAME" />
+                <ScalarProperty Name="ITEMRANGEID" ColumnName="ITEMRANGEID" />
+                <ScalarProperty Name="SALESDEPID" ColumnName="SALESDEPID" />
+                <ScalarProperty Name="ITEMID_CRYSTALL" ColumnName="ITEMID_CRYSTALL" />
+                <ScalarProperty Name="BRANDID" ColumnName="BRANDID" />
+                <ScalarProperty Name="CREATEDDATE" ColumnName="CREATEDDATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CRM_PublicityJournalRefCardType">
+            <EntityTypeMapping TypeName="DAX2012_PreProdModel.CRM_PublicityJournalRefCardType">
+              <MappingFragment StoreEntitySet="CRM_PublicityJournalRefCardType">
+                <ScalarProperty Name="JOURNALID" ColumnName="JOURNALID" />
+                <ScalarProperty Name="DISCCARDTYPEID" ColumnName="DISCCARDTYPEID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CRM_PublicityScheduleView">
+            <EntityTypeMapping TypeName="DAX2012_PreProdModel.CRM_PublicityScheduleView">
+              <MappingFragment StoreEntitySet="CRM_PublicityScheduleView">
+                <ScalarProperty Name="INVENTLOCATIONID" ColumnName="INVENTLOCATIONID" />
+                <ScalarProperty Name="PUBLICITYDATE" ColumnName="PUBLICITYDATE" />
+                <ScalarProperty Name="JOURNALTYPE" ColumnName="JOURNALTYPE" />
+                <ScalarProperty Name="PUBLICITYJOURNALID" ColumnName="PUBLICITYJOURNALID" />
+                <ScalarProperty Name="ACTIONTYPE" ColumnName="ACTIONTYPE" />
+                <ScalarProperty Name="DATEBEGIN" ColumnName="DATEBEGIN" />
+                <ScalarProperty Name="DATEEND" ColumnName="DATEEND" />
+                <ScalarProperty Name="ITEMID" ColumnName="ITEMID" />
+                <ScalarProperty Name="VALUETYPE" ColumnName="VALUETYPE" />
+                <ScalarProperty Name="VALUE" ColumnName="VALUE" />
+                <ScalarProperty Name="ITEMID_CRYSTALL" ColumnName="ITEMID_CRYSTALL" />
+                <ScalarProperty Name="PRICERETAIL" ColumnName="PRICERETAIL" />
+                <ScalarProperty Name="PRICEPUBLICITY" ColumnName="PRICEPUBLICITY" />
+                <ScalarProperty Name="PROBABLEPRICERETAIL" ColumnName="PROBABLEPRICERETAIL" />
+                <ScalarProperty Name="PROBABLEPRICEPUBLICITY" ColumnName="PROBABLEPRICEPUBLICITY" />
+                <ScalarProperty Name="QTY" ColumnName="QTY" />
+                <ScalarProperty Name="DISCQTY" ColumnName="DISCQTY" />
+                <ScalarProperty Name="ACTIVE" ColumnName="ACTIVE" />
+                <ScalarProperty Name="COUNTDISCTYPE" ColumnName="COUNTDISCTYPE" />
+                <ScalarProperty Name="COMMODITYGROUPID" ColumnName="COMMODITYGROUPID" />
+                <ScalarProperty Name="RULETYPE" ColumnName="RULETYPE" />
+                <ScalarProperty Name="PUBLICITYTRANSID" ColumnName="PUBLICITYTRANSID" />
+                <ScalarProperty Name="TimeBegin" ColumnName="TimeBegin" />
+                <ScalarProperty Name="TimeEnd" ColumnName="TimeEnd" />
+                <ScalarProperty Name="MODIFIEDDATE" ColumnName="MODIFIEDDATE" />
+                <ScalarProperty Name="ModifiedTime" ColumnName="ModifiedTime" />
+                <ScalarProperty Name="CREATEDDATE" ColumnName="CREATEDDATE" />
+                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CRM_PublicityScheduleView_ClearanceSale">
+            <EntityTypeMapping TypeName="DAX2012_PreProdModel.CRM_PublicityScheduleView_ClearanceSale">
+              <MappingFragment StoreEntitySet="CRM_PublicityScheduleView_ClearanceSale">
+                <ScalarProperty Name="INVENTLOCATIONID" ColumnName="INVENTLOCATIONID" />
+                <ScalarProperty Name="PublicityDate" ColumnName="PublicityDate" />
+                <ScalarProperty Name="JournalType" ColumnName="JournalType" />
+                <ScalarProperty Name="PUBLICITYJOURNALID" ColumnName="PUBLICITYJOURNALID" />
+                <ScalarProperty Name="ActionType" ColumnName="ActionType" />
+                <ScalarProperty Name="DateBegin" ColumnName="DateBegin" />
+                <ScalarProperty Name="DateEnd" ColumnName="DateEnd" />
+                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+                <ScalarProperty Name="ValueType" ColumnName="ValueType" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="ITEMID_CRYSTALL" ColumnName="ITEMID_CRYSTALL" />
+                <ScalarProperty Name="PRICERETAIL" ColumnName="PRICERETAIL" />
+                <ScalarProperty Name="PRICEPUBLICITY" ColumnName="PRICEPUBLICITY" />
+                <ScalarProperty Name="PROBABLEPRICERETAIL" ColumnName="PROBABLEPRICERETAIL" />
+                <ScalarProperty Name="PROBABLEPRICEPUBLICITY" ColumnName="PROBABLEPRICEPUBLICITY" />
+                <ScalarProperty Name="QTY" ColumnName="QTY" />
+                <ScalarProperty Name="ACTIVE" ColumnName="ACTIVE" />
+                <ScalarProperty Name="COUNTDISCTYPE" ColumnName="COUNTDISCTYPE" />
+                <ScalarProperty Name="COMMODITYGROUPID" ColumnName="COMMODITYGROUPID" />
+                <ScalarProperty Name="RuleType" ColumnName="RuleType" />
+                <ScalarProperty Name="PublicityTransId" ColumnName="PublicityTransId" />
+                <ScalarProperty Name="TimeBegin" ColumnName="TimeBegin" />
+                <ScalarProperty Name="TimeEnd" ColumnName="TimeEnd" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedTime" ColumnName="ModifiedTime" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CRM_RetailItemGroup">
+            <EntityTypeMapping TypeName="DAX2012_PreProdModel.CRM_RetailItemGroup">
+              <MappingFragment StoreEntitySet="CRM_RetailItemGroup">
+                <ScalarProperty Name="GROUPID" ColumnName="GROUPID" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+                <ScalarProperty Name="ACTIVE" ColumnName="ACTIVE" />
+                <ScalarProperty Name="RETAILITEMGROUPTYPE" ColumnName="RETAILITEMGROUPTYPE" />
+                <ScalarProperty Name="MODIFIEDDATETIME" ColumnName="MODIFIEDDATETIME" />
+                <ScalarProperty Name="CREATEDDATETIME" ColumnName="CREATEDDATETIME" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CRM_RetailItemGroupLine">
+            <EntityTypeMapping TypeName="DAX2012_PreProdModel.CRM_RetailItemGroupLine">
+              <MappingFragment StoreEntitySet="CRM_RetailItemGroupLine">
+                <ScalarProperty Name="ITEMID" ColumnName="ITEMID" />
+                <ScalarProperty Name="GROUPID" ColumnName="GROUPID" />
+                <ScalarProperty Name="BASEITEM" ColumnName="BASEITEM" />
+                <ScalarProperty Name="QUANT" ColumnName="QUANT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
