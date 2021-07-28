@@ -8,7 +8,6 @@ namespace CatalogConverter
     using System.Xml.Serialization;
 
     using CatalogConverter.Data;
-    using CatalogConverter.DB;
     using NLog;
 
     class Program
@@ -27,17 +26,17 @@ namespace CatalogConverter
                     //TODO: Вынести бд в параметры? Как-нибудь?
                     using (var db = new ConverterDbContext())
                     {
-                        string getTree = "with  tree ([RANGEID], [RANGEIDPARENT], [PREFIX], [NAMEALIAS], [ITEMRANGEID_CRYSTALL], [RANGELEVEL]) " +
-                                         "as (select  [RANGEID], cast('' as nvarchar(20)), [PREFIX], [NAMEALIAS], [ITEMRANGEID_CRYSTALL], cast(1 as bigint) " +
+                        string getTree = "with  tree ([RANGEID], [RANGEIDPARENT], [NAMEALIAS], [ITEMRANGEID_CRYSTALL], level) " +
+                                         "as (select  [RANGEID], cast('' as nvarchar(20)), [NAMEALIAS], [ITEMRANGEID_CRYSTALL], 0 " +
                                          "from [CRM_InventItemRange] " +
                                          "where rtrim(ltrim([RANGEIDPARENT])) = '' and rtrim(ltrim([RANGEID])) <> '' and rtrim(ltrim([NAMEALIAS])) <> '' " +
                                          "union all " +
-                                         "select  t.[RANGEID], t.[RANGEIDPARENT], t.[PREFIX], t.[NAMEALIAS], t.[ITEMRANGEID_CRYSTALL], cast((tree.[RANGELEVEL] + 1) as bigint) " +
+                                         "select  t.[RANGEID], t.[RANGEIDPARENT], t.[NAMEALIAS], t.[ITEMRANGEID_CRYSTALL], tree.level + 1 " +
                                          "from [CRM_InventItemRange] t " +
-                                         "inner join tree on tree.[RANGEID] = t.[RANGEIDPARENT] and rtrim(ltrim(t.[RANGEIDPARENT]))<> '' and rtrim(ltrim(t.[RANGEID])) <> '' and rtrim(ltrim(t.[NAMEALIAS])) <> '') " +
+                                         "inner join tree on tree.[RANGEID] = t.[RANGEIDPARENT] and rtrim(ltrim(t.[RANGEIDPARENT])) <> '' and rtrim(ltrim(t.[RANGEID])) <> '' and rtrim(ltrim(t.[NAMEALIAS])) <> '') " +
                                          "select * " +
                                          "from tree " +
-                                         "order by cast([RANGELEVEL] as bigint)";
+                                         "order by level";
                         Console.WriteLine("Начинается обработка ветвей.");
                         var dbNodes = db.InventItemRanges.SqlQuery(getTree);
                         foreach (var dbNode in dbNodes)
@@ -115,10 +114,6 @@ namespace CatalogConverter
                                     ms.Position = 0;
 
                                     Console.WriteLine("Каталог сериализован успешно, приступаем к загрузке каталога на сервер Loymax.");
-
-                                    /*FileStream file = new FileStream("c:\\file.txt", FileMode.Create);
-                                    ms.WriteTo(file);
-                                    file.Close();*/
 
                                     result = httpClient.PostStream(ms);
 

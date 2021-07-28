@@ -15,9 +15,5 @@ namespace CatalogConverter.DAL
         public string ITEMID { get; set; }
         public string ITEMNAME { get; set; }
         public string ITEMRANGEID { get; set; }
-        public string SALESDEPID { get; set; }
-        public int ITEMID_CRYSTALL { get; set; }
-        public string BRANDID { get; set; }
-        public System.DateTime CREATEDDATE { get; set; }
     }
 }

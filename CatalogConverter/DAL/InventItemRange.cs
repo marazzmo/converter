@@ -14,9 +14,7 @@ namespace CatalogConverter.DAL
         [Key]
         public string RANGEID { get; set; }
         public string RANGEIDPARENT { get; set; }
-        public string PREFIX { get; set; }
         public string NAMEALIAS { get; set; }
         public int ITEMRANGEID_CRYSTALL { get; set; }
-        public Nullable<long> RANGELEVEL { get; set; }
     }
 }
