@@ -67,6 +67,10 @@
   <ItemGroup>
     <Compile Include="CatalogConverterHttpManager.cs" />
     <Compile Include="CatalogManager.cs" />
+    <Compile Include="DAL\ActiveAssortment.cs" />
+    <Compile Include="DAL\ConverterDbContext.cs" />
+    <Compile Include="DAL\InventItemRange.cs" />
+    <Compile Include="DAL\InventTable.cs" />
     <Compile Include="Data\CatalogItem.cs" />
     <Compile Include="Data\LeafInfo.cs" />
     <Compile Include="Data\TreeItem.cs" />

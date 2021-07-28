@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.SqlClient;
+﻿using CatalogConverter.DAL;
 
 namespace CatalogConverter
 {
@@ -23,13 +21,11 @@ namespace CatalogConverter
                 CatalogManager catalog = new CatalogManager();
                 bool isSucces = true;
 
-                //TODO: Подтянуть из указанного в настроках места БД с каталогом
-                //TODO: затем преобразовать в удобоваримый для xml-дерева формат
-
                 try
                 {
                     Console.WriteLine("Начинается обработка каталога, это может занять некоторое время.");
-                    using (var db = new DAX2012_PreProdEntities())
+                    //TODO: Вынести бд в параметры? Как-нибудь?
+                    using (var db = new ConverterDbContext())
                     {
                         string getTree = "with  tree ([RANGEID], [RANGEIDPARENT], [PREFIX], [NAMEALIAS], [ITEMRANGEID_CRYSTALL], [RANGELEVEL]) " +
                                          "as (select  [RANGEID], cast('' as nvarchar(20)), [PREFIX], [NAMEALIAS], [ITEMRANGEID_CRYSTALL], cast(1 as bigint) " +
@@ -43,7 +39,7 @@ namespace CatalogConverter
                                          "from tree " +
                                          "order by cast([RANGELEVEL] as bigint)";
                         Console.WriteLine("Начинается обработка ветвей.");
-                        var dbNodes = db.CRM_InventItemRange.SqlQuery(getTree);
+                        var dbNodes = db.InventItemRanges.SqlQuery(getTree);
                         foreach (var dbNode in dbNodes)
                         {
                             TreeNode node = new TreeNode() {Name = dbNode.NAMEALIAS.Trim(), ID = dbNode.RANGEID.Trim()};
@@ -52,7 +48,7 @@ namespace CatalogConverter
 
                         Console.WriteLine("Начинается обработка листьев.");
 
-                        var dbLeafs = db.CRM_InventTable.Where(a=>!string.IsNullOrEmpty(a.ITEMNAME));
+                        var dbLeafs = db.InventTables.Where(a=>!string.IsNullOrEmpty(a.ITEMNAME));
 
                         //TODO: добавить мрц к обработке, замедлит ещё на пару-тройку секунд наверное, но не суть
                         /*var dbbs = from a in db.CRM_InventTable
@@ -98,13 +94,13 @@ namespace CatalogConverter
                     isSucces = false;
                 }
 
-                //TODO: и отправить в лоймакс
                 if (isSucces)
                 {
                     try
                     {
                         using (CatalogConverterHttpManager httpClient = new CatalogConverterHttpManager())
                         {
+                            //TODO: Брать адрес каталога/логин/пароль из каких-нибдуь параметров
                             httpClient.Init("https://okey-dev.loymax.tech/catalogloader/o'kej/catalog_default/", "Default", "498602");
                             System.Net.Http.HttpResponseMessage result = null;
                             using (var ms = new MemoryStream())

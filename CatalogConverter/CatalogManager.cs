@@ -1,6 +1,4 @@
-﻿using CatalogConverter.DB;
-
-namespace CatalogConverter
+﻿namespace CatalogConverter
 {
     using System;
     using System.Collections.Generic;
