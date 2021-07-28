@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Xml;
-using CatalogConverter.DB;
 
 namespace CatalogConverter
 {
     using System;
     using System.IO;
+    using System.Linq;
+    using System.Xml.Serialization;
 
     using CatalogConverter.Data;
+    using CatalogConverter.DB;
     using NLog;
 
     class Program
@@ -34,11 +34,11 @@ namespace CatalogConverter
                         string getTree = "with  tree ([RANGEID], [RANGEIDPARENT], [PREFIX], [NAMEALIAS], [ITEMRANGEID_CRYSTALL], [RANGELEVEL]) " +
                                          "as (select  [RANGEID], cast('' as nvarchar(20)), [PREFIX], [NAMEALIAS], [ITEMRANGEID_CRYSTALL], cast(1 as bigint) " +
                                          "from [CRM_InventItemRange] " +
-                                         "where rtrim(ltrim([RANGEIDPARENT])) = '' and rtrim(ltrim([RANGEID])) <> '' " +
+                                         "where rtrim(ltrim([RANGEIDPARENT])) = '' and rtrim(ltrim([RANGEID])) <> '' and rtrim(ltrim([NAMEALIAS])) <> '' " +
                                          "union all " +
                                          "select  t.[RANGEID], t.[RANGEIDPARENT], t.[PREFIX], t.[NAMEALIAS], t.[ITEMRANGEID_CRYSTALL], cast((tree.[RANGELEVEL] + 1) as bigint) " +
                                          "from [CRM_InventItemRange] t " +
-                                         "inner join tree on tree.[RANGEID] = t.[RANGEIDPARENT] and rtrim(ltrim(t.[RANGEIDPARENT]))<> '' and rtrim(ltrim(t.[RANGEID])) <> '') " +
+                                         "inner join tree on tree.[RANGEID] = t.[RANGEIDPARENT] and rtrim(ltrim(t.[RANGEIDPARENT]))<> '' and rtrim(ltrim(t.[RANGEID])) <> '' and rtrim(ltrim(t.[NAMEALIAS])) <> '') " +
                                          "select * " +
                                          "from tree " +
                                          "order by cast([RANGELEVEL] as bigint)";
@@ -46,46 +46,46 @@ namespace CatalogConverter
                         var dbNodes = db.CRM_InventItemRange.SqlQuery(getTree);
                         foreach (var dbNode in dbNodes)
                         {
-                            TreeNode node = new TreeNode() {Name = dbNode.NAMEALIAS, ID = dbNode.RANGEID};
+                            TreeNode node = new TreeNode() {Name = dbNode.NAMEALIAS.Trim(), ID = dbNode.RANGEID.Trim()};
                             catalog.AddNode(node, dbNode.RANGEIDPARENT);
                         }
 
                         Console.WriteLine("Начинается обработка листьев.");
 
-                        /*var dbLeafs = db.CRM_InventTable;*/
+                        var dbLeafs = db.CRM_InventTable.Where(a=>!string.IsNullOrEmpty(a.ITEMNAME));
 
-                        var dbbs = from a in db.CRM_InventTable
-                            join b in db.CRM_BrandTable on a.BRANDID equals b.BRANDID into g
+                        //TODO: добавить мрц к обработке, замедлит ещё на пару-тройку секунд наверное, но не суть
+                        /*var dbbs = from a in db.CRM_InventTable
+                            join b in db.CRM_RetailItemGroupLine on a.ITEMID equals b.ITEMID into g
                             from x in g.DefaultIfEmpty()
                             select new
                             {
                                 a.ITEMID,
                                 a.ITEMNAME,
                                 a.ITEMRANGEID,
-                                BRANDNAME = (x == null ? string.Empty : x.NAME)
-                            };
-
+                                PURCHMINPRICE(PROD | VEND | RETAIL) = (x == null ? (decimal?)null : x.PURCHMINPRICE(PROD | VEND | RETAIL))
+                            };*/
 
                         int counter = 0;
-                        int count = dbbs.Count();
+                        int count = dbLeafs.Count();
 
-                        foreach (var dbLeaf in dbbs)
+                        foreach (var dbLeaf in dbLeafs)
                         {
                             counter += 1;
                             Console.WriteLine($"{counter}/{count}");
 
-                            TreeLeaf leaf = null;
-                            if (string.IsNullOrEmpty(dbLeaf.BRANDNAME))
+                            /*TreeLeaf leaf = null;
+                            if (dbLeaf.PURCHMINPRICE == null)
                             {
-                                leaf = new TreeLeaf() { Name = dbLeaf.ITEMNAME, ID = dbLeaf.ITEMID };
+                                leaf = new TreeLeaf() { Name = dbLeaf.ITEMNAME.Trim(), ID = dbLeaf.ITEMID.Trim() };
                             }
                             else
                             {
-                                var info = new LeafInfo() { Name = "Brand", Value = dbLeaf.BRANDNAME };
-                                leaf = new TreeLeaf() { Name = dbLeaf.ITEMNAME, ID = dbLeaf.ITEMID, AdditionalInfo = new List<LeafInfo>() { info } };
-                            }
+                                var info = new LeafInfo() { Name = "Quant", Value = dbLeaf.PURCHMINPRICE.ToString() };
+                                leaf = new TreeLeaf() { Name = dbLeaf.ITEMNAME.Trim(), ID = dbLeaf.ITEMID.Trim(), AdditionalInfo = new List<LeafInfo>() { info } };
+                            }*/
 
-                            /*var leaf = new TreeLeaf() { Name = dbLeaf.ITEMNAME, ID = dbLeaf.ITEMID };*/
+                            var leaf = new TreeLeaf() { Name = dbLeaf.ITEMNAME.Trim(), ID = dbLeaf.ITEMID.Trim() };
                             catalog.AddLeaf(leaf, dbLeaf.ITEMRANGEID);
                         }
                         Console.WriteLine("Обработка каталога успешно завершена.");
@@ -103,22 +103,28 @@ namespace CatalogConverter
                 {
                     try
                     {
-                        Console.WriteLine("Начинается загрузка на сервер Loymax, это может занять некоторое время.");
                         using (CatalogConverterHttpManager httpClient = new CatalogConverterHttpManager())
                         {
-                            httpClient.Init("address", "login", "password");
+                            httpClient.Init("https://okey-dev.loymax.tech/catalogloader/o'kej/catalog_default/", "Default", "498602");
                             System.Net.Http.HttpResponseMessage result = null;
                             using (var ms = new MemoryStream())
                             {
                                 using (var sw = new StreamWriter(ms))
                                 {
-                                    XmlSerializerCache.GetXmlSerializer(typeof(TreeNode)).Serialize(sw, catalog.CollectCatalog());
+                                    Console.WriteLine("Начинается сериализация каталога, это может занять некоторое время.");
+                                    XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
+                                    ns.Add("","");
+
+                                    XmlSerializerCache.GetXmlSerializer(typeof(TreeNode)).Serialize(sw, catalog.CollectCatalog(), ns);
                                     ms.Position = 0;
 
-                                    FileStream file = new FileStream("c:\\file.txt", FileMode.Create);
+                                    Console.WriteLine("Каталог сериализован успешно, приступаем к загрузке каталога на сервер Loymax.");
+
+                                    /*FileStream file = new FileStream("c:\\file.txt", FileMode.Create);
                                     ms.WriteTo(file);
-                                    file.Close();
-                                    /*result = httpClient.PostStream(ms);
+                                    file.Close();*/
+
+                                    result = httpClient.PostStream(ms);
 
                                     if (result.StatusCode != System.Net.HttpStatusCode.OK)
                                     {
@@ -130,16 +136,14 @@ namespace CatalogConverter
                                     if (!loymaxResponse.Response.Result.Equals("Ok", StringComparison.InvariantCultureIgnoreCase))
                                     {
                                         logger.Debug($"Loymax Result = {loymaxResponse.Response.Result}, Message = {loymaxResponse.Response.Message}");
-                                    }*/
-
-                                    //TODO: нужна ли чистка? Наврядли, из бд же берём данные. Хммм. 
+                                    }
                                 }
                             }
                         }
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine("Возникла ошибка при загрузке на сервер Lymax, подробности в логах.");
+                        Console.WriteLine("Возникла ошибка при загрузке на сервер Loymax, подробности в логах.");
                         logger.Fatal(ex);
                     }
                 }

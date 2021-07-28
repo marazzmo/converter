@@ -74,13 +74,6 @@ namespace CatalogConverter
             return catalog;
         }
 
-        /// <summary>Операция по объединению нод.</summary>
-        /// <param name="node">Итоговая нода.</param>
-        public void MergeNode(TreeNode node)
-        {
-            this.MergeNodeInternal(node, null);
-        }
-
         /// <summary>Копирование ноды.</summary>
         /// <param name="item">Изначальная нода.</param>
         /// <returns>Результирующая нода.</returns>
@@ -125,52 +118,6 @@ namespace CatalogConverter
             }
         }
 
-        /// <summary>Внутренняя реализацяи присоединения нод.</summary>
-        /// <param name="node">Нода.</param>
-        /// <param name="parent">Родительская нода.</param>
-        private void MergeNodeInternal(TreeNode node, TreeNode parent)
-        {
-            //Если в каталоге есть нода с таким ID берём его, иначе создаём новую ноду в каталоге
-            if (this.catalogItems.ContainsKey(node.ID))
-            {
-                var item = this.catalogItems[node.ID];
-                item.Item = node;
-                item.ParentId = parent?.ID;
-            }
-            else
-            {
-                this.catalogItems.Add(node.ID, new CatalogItem() { Item = node, ParentId = parent?.ID, IsLeaf = false });
-            }
-
-            foreach (var n in node.Nodes)
-            {
-                this.MergeNodeInternal(n, node);
-            }
-
-            foreach (var n in node.Leafs)
-            {
-                this.MergeLeafsInternal(n, node);
-            }
-        }
-
-        /// <summary>Внутренняя реализация присоединения листьев.</summary>
-        /// <param name="leaf">Лист.</param>
-        /// <param name="parent">Родительская нода.</param>
-        private void MergeLeafsInternal(TreeLeaf leaf, TreeNode parent)
-        {
-            this.CheckBarcode(leaf);
-            if (this.catalogItems.ContainsKey(leaf.ID))
-            {
-                var item = this.catalogItems[leaf.ID];
-                item.Item = leaf;
-                item.ParentId = parent.ID;
-            }
-            else
-            {
-                this.catalogItems.Add(leaf.ID, new CatalogItem() { Item = leaf, ParentId = parent.ID, IsLeaf = true });
-            }
-        }
-
         /// <summary>Проверка уникальности ШК(?).</summary>
         /// <param name="leaf">Лист.</param>
         private void CheckBarcode(TreeLeaf leaf)
@@ -195,13 +142,13 @@ namespace CatalogConverter
         /// <returns>Корень.</returns>
         private string CheckRoot()
         {
-            if (this.catalogItems.ContainsKey("0"))
+            if (this.catalogItems.ContainsKey("Default"))
             {
-                return "0";
+                return "Default";
             }
 
-            this.catalogItems.Add("0", new CatalogItem() { IsLeaf = false, ParentId = null, Item = new TreeItem() { ID = "0", Name = "ROOT" } });
-            return "0";
+            this.catalogItems.Add("Default", new CatalogItem() { IsLeaf = false, ParentId = null, Item = new TreeItem() { ID = "Default", Name = "Default" } });
+            return "Default";
         }
     }
 }
