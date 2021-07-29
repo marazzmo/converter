@@ -22,6 +22,7 @@ namespace CatalogConverter
             string loymaxAddres = ConfigurationManager.AppSettings.Get("loymaxAddres");
             string catalogAddres = ConfigurationManager.AppSettings.Get("catalogAddres");
             string resultUri = loymaxAddres + catalogAddres;
+
             try
             {
                 CatalogManager catalog = new CatalogManager(loymaxLogin);
@@ -45,8 +46,8 @@ namespace CatalogConverter
                                          "select * " +
                                          "from tree " +
                                          "order by level";
-                        Console.WriteLine("Начинается обработка ветвей.");
                         var dbNodes = db.InventItemRanges.SqlQuery(getTree);
+                        Console.WriteLine("Начинается обработка ветвей.");
                         logger.Debug($"Обработка ветвей, найдено {dbNodes.Count()}.");
                         foreach (var dbNode in dbNodes)
                         {
@@ -54,37 +55,15 @@ namespace CatalogConverter
                             catalog.AddNode(node, dbNode.RANGEIDPARENT);
                         }
 
+                        var dbLeafs = db.InventTables.Where(a => !string.IsNullOrEmpty(a.ITEMNAME));
                         Console.WriteLine("Начинается обработка листьев.");
-                        var dbLeafs = db.InventTables.Where(a=>!string.IsNullOrEmpty(a.ITEMNAME));
                         logger.Debug($"Обработка листьев, найдено {dbLeafs.Count()}.");
-                        //TODO: добавить мрц к обработке, замедлит ещё на пару-тройку секунд наверное, но не суть
-                        /*var dbLeafs = from a in db.CRM_InventTable
-                            join b in db.CRM_RetailItemGroupLine on a.ITEMID equals b.ITEMID into g
-                            from x in g.DefaultIfEmpty()
-                            select new
-                            {
-                                a.ITEMID,
-                                a.ITEMNAME,
-                                a.ITEMRANGEID,
-                                PURCHMINPRICE(PROD | VEND | RETAIL) = (x == null ? (decimal?)null : x.PURCHMINPRICE(PROD | VEND | RETAIL))
-                            };*/
-
                         foreach (var dbLeaf in dbLeafs)
                         {
-                            /*TreeLeaf leaf = null;
-                            if (dbLeaf.PURCHMINPRICE == null)
-                            {
-                                leaf = new TreeLeaf() { Name = dbLeaf.ITEMNAME.Trim(), ID = dbLeaf.ITEMID.Trim() };
-                            }
-                            else
-                            {
-                                var info = new LeafInfo() { Name = "Quant", Value = dbLeaf.PURCHMINPRICE.ToString() };
-                                leaf = new TreeLeaf() { Name = dbLeaf.ITEMNAME.Trim(), ID = dbLeaf.ITEMID.Trim(), AdditionalInfo = new List<LeafInfo>() { info } };
-                            }*/
-
                             var leaf = new TreeLeaf() { Name = dbLeaf.ITEMNAME.Trim(), ID = dbLeaf.ITEMID.Trim() };
                             catalog.AddLeaf(leaf, dbLeaf.ITEMRANGEID);
                         }
+
                         Console.WriteLine("Обработка каталога успешно завершена.");
                         logger.Debug("Обработка каталога завершена.");
                     }
@@ -110,21 +89,16 @@ namespace CatalogConverter
                                 {
                                     Console.WriteLine("Начинается сериализация каталога, это может занять некоторое время.");
                                     logger.Debug("Сериалиазция каталога началась.");
+
                                     XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
                                     ns.Add("","");
-
                                     XmlSerializerCache.GetXmlSerializer(typeof(TreeNode)).Serialize(sw, catalog.CollectCatalog(), ns);
                                     ms.Position = 0;
 
                                     Console.WriteLine("Каталог сериализован успешно, приступаем к загрузке каталога на сервер Loymax.");
                                     logger.Debug("Загрузка каталога на сервер началась.");
 
-                                    /*FileStream file = new FileStream("c:\\file.txt", FileMode.Create);
-                                    ms.WriteTo(file);
-                                    file.Close();*/
-
                                     result = httpClient.PostStream(ms);
-
                                     if (result.StatusCode != System.Net.HttpStatusCode.OK)
                                     {
                                         Console.WriteLine($"От сервера получен код ошибки HTTP {result.StatusCode}");
