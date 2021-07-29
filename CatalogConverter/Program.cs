@@ -1,4 +1,5 @@
-﻿using CatalogConverter.DAL;
+﻿using System.Configuration;
+using CatalogConverter.DAL;
 
 namespace CatalogConverter
 {
@@ -15,15 +16,22 @@ namespace CatalogConverter
         private static Logger logger = LogManager.GetCurrentClassLogger();
         static void Main(string[] args)
         {
+            //TODO: брать из настроек каких-нибудь
+            string loymaxLogin = ConfigurationManager.AppSettings.Get("loymaxLogin");
+            string loymaxPassword = ConfigurationManager.AppSettings.Get("loymaxPassword");
+            string loymaxAddres = ConfigurationManager.AppSettings.Get("loymaxAddres");
+            string catalogAddres = ConfigurationManager.AppSettings.Get("catalogAddres");
+            string resultUri = loymaxAddres + catalogAddres;
             try
             {
-                CatalogManager catalog = new CatalogManager();
+                CatalogManager catalog = new CatalogManager(loymaxLogin);
                 bool isSucces = true;
 
                 try
                 {
                     Console.WriteLine("Начинается обработка каталога, это может занять некоторое время.");
-                    //TODO: Вынести бд в параметры? Как-нибудь?
+                    logger.Debug("Обработка каталога началась.");
+
                     using (var db = new ConverterDbContext())
                     {
                         string getTree = "with  tree ([RANGEID], [RANGEIDPARENT], [NAMEALIAS], [ITEMRANGEID_CRYSTALL], level) " +
@@ -39,6 +47,7 @@ namespace CatalogConverter
                                          "order by level";
                         Console.WriteLine("Начинается обработка ветвей.");
                         var dbNodes = db.InventItemRanges.SqlQuery(getTree);
+                        logger.Debug($"Обработка ветвей, найдено {dbNodes.Count()}.");
                         foreach (var dbNode in dbNodes)
                         {
                             TreeNode node = new TreeNode() {Name = dbNode.NAMEALIAS.Trim(), ID = dbNode.RANGEID.Trim()};
@@ -46,11 +55,10 @@ namespace CatalogConverter
                         }
 
                         Console.WriteLine("Начинается обработка листьев.");
-
                         var dbLeafs = db.InventTables.Where(a=>!string.IsNullOrEmpty(a.ITEMNAME));
-
+                        logger.Debug($"Обработка листьев, найдено {dbLeafs.Count()}.");
                         //TODO: добавить мрц к обработке, замедлит ещё на пару-тройку секунд наверное, но не суть
-                        /*var dbbs = from a in db.CRM_InventTable
+                        /*var dbLeafs = from a in db.CRM_InventTable
                             join b in db.CRM_RetailItemGroupLine on a.ITEMID equals b.ITEMID into g
                             from x in g.DefaultIfEmpty()
                             select new
@@ -61,14 +69,8 @@ namespace CatalogConverter
                                 PURCHMINPRICE(PROD | VEND | RETAIL) = (x == null ? (decimal?)null : x.PURCHMINPRICE(PROD | VEND | RETAIL))
                             };*/
 
-                        int counter = 0;
-                        int count = dbLeafs.Count();
-
                         foreach (var dbLeaf in dbLeafs)
                         {
-                            counter += 1;
-                            Console.WriteLine($"{counter}/{count}");
-
                             /*TreeLeaf leaf = null;
                             if (dbLeaf.PURCHMINPRICE == null)
                             {
@@ -84,6 +86,7 @@ namespace CatalogConverter
                             catalog.AddLeaf(leaf, dbLeaf.ITEMRANGEID);
                         }
                         Console.WriteLine("Обработка каталога успешно завершена.");
+                        logger.Debug("Обработка каталога завершена.");
                     }
                 }
                 catch (Exception ex)
@@ -99,14 +102,14 @@ namespace CatalogConverter
                     {
                         using (CatalogConverterHttpManager httpClient = new CatalogConverterHttpManager())
                         {
-                            //TODO: Брать адрес каталога/логин/пароль из каких-нибдуь параметров
-                            httpClient.Init("https://okey-dev.loymax.tech/catalogloader/o'kej/catalog_default/", "Default", "498602");
+                            httpClient.Init(resultUri, loymaxLogin, loymaxPassword);
                             System.Net.Http.HttpResponseMessage result = null;
                             using (var ms = new MemoryStream())
                             {
                                 using (var sw = new StreamWriter(ms))
                                 {
                                     Console.WriteLine("Начинается сериализация каталога, это может занять некоторое время.");
+                                    logger.Debug("Сериалиазция каталога началась.");
                                     XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
                                     ns.Add("","");
 
@@ -114,12 +117,18 @@ namespace CatalogConverter
                                     ms.Position = 0;
 
                                     Console.WriteLine("Каталог сериализован успешно, приступаем к загрузке каталога на сервер Loymax.");
+                                    logger.Debug("Загрузка каталога на сервер началась.");
+
+                                    /*FileStream file = new FileStream("c:\\file.txt", FileMode.Create);
+                                    ms.WriteTo(file);
+                                    file.Close();*/
 
                                     result = httpClient.PostStream(ms);
 
                                     if (result.StatusCode != System.Net.HttpStatusCode.OK)
                                     {
                                         Console.WriteLine($"От сервера получен код ошибки HTTP {result.StatusCode}");
+                                        logger.Debug($"От сервера получен код ошибки HTTP {result.StatusCode}");
                                     }
 
                                     var loymaxResponse = new LoymaxResponseParser(result.Content.ReadAsStreamAsync().Result);

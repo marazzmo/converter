@@ -8,8 +8,14 @@
     /// <summary>Менеджер для работы с каталогом.</summary>
     internal class CatalogManager
     {
+        internal CatalogManager(string rootName)
+        {
+            this.rootName = rootName;
+        }
+
         private Dictionary<string, CatalogItem> catalogItems = new Dictionary<string, CatalogItem>();
         private Dictionary<string, TreeLeaf> barcodes = new Dictionary<string, TreeLeaf>();
+        private string rootName;
 
         /// <summary>Операция по добавлению ноды в каталог.</summary>
         /// <param name="node">Добавляемая нода.</param>
@@ -140,13 +146,13 @@
         /// <returns>Корень.</returns>
         private string CheckRoot()
         {
-            if (this.catalogItems.ContainsKey("Default"))
+            if (this.catalogItems.ContainsKey(rootName))
             {
-                return "Default";
+                return rootName;
             }
 
-            this.catalogItems.Add("Default", new CatalogItem() { IsLeaf = false, ParentId = null, Item = new TreeItem() { ID = "Default", Name = "Default" } });
-            return "Default";
+            this.catalogItems.Add(rootName, new CatalogItem() { IsLeaf = false, ParentId = null, Item = new TreeItem() { ID = rootName, Name = rootName } });
+            return rootName;
         }
     }
 }
